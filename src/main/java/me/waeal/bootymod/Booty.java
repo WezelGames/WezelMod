@@ -18,22 +18,14 @@ import javax.annotation.PostConstruct;
 @Mod(modid = "bbm", name = "BootyMod", version = "1.8.9-MOD_ALPHA")
 public class Booty {
 	public static Settings settings;
-	private static String dir;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws Exception {
-		dir = event.getModConfigurationDirectory().getPath();
-		initSettings();
-	}
-
-	private void initSettings() throws Exception {
-		if (settings != null)
-			return;
-
-		settings = new Settings(dir);
+		settings = new Settings(event.getModConfigurationDirectory().getPath());
 		settings.initialize();
 		settings.markDirty();
 		settings.loadData();
+		initSettings();
 	}
 
 	@Mod.EventHandler
@@ -43,15 +35,18 @@ public class Booty {
 
 	@PostConstruct
 	public void register() throws Exception {
-		initSettings();
-
 		ClientCommandHandler.instance.registerCommand(pvCmd);
 		ClientCommandHandler.instance.registerCommand(bootyCmd);
 
-		if (settings.copyChat)
+		if (settings != null)
+			initSettings();
+	}
+
+	private void initSettings() {
+		if (settings.copyChat && cgListener != null)
 			MinecraftForge.EVENT_BUS.register(cgListener);
 		settings.setCgListener(cgListener);
-		if (settings.displayDungeonStats)
+		if (settings.displayDungeonStats && cmListener != null)
 			MinecraftForge.EVENT_BUS.register(cmListener);
 		settings.setCmListener(cmListener);
 	}
