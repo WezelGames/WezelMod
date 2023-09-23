@@ -3,8 +3,6 @@ package me.waeal.bootymod;
 import me.waeal.bootymod.commands.*;
 import me.waeal.bootymod.listeners.*;
 import me.waeal.bootymod.objects.Settings;
-import me.waeal.bootymod.services.APIServices;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -15,16 +13,24 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 
 @SpringBootApplication
 @Mod(modid = "bbm", name = "BootyMod", version = "1.8.9-MOD_ALPHA")
 public class Booty {
 	public static Settings settings;
+	private static String dir;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws Exception {
-		settings = new Settings(event.getModConfigurationDirectory().getPath());
+		dir = event.getModConfigurationDirectory().getPath();
+		initSettings();
+	}
+
+	private void initSettings() throws Exception {
+		if (settings != null)
+			return;
+
+		settings = new Settings(dir);
 		settings.initialize();
 		settings.markDirty();
 		settings.loadData();
@@ -36,7 +42,9 @@ public class Booty {
 	}
 
 	@PostConstruct
-	public void register() throws IOException {
+	public void register() throws Exception {
+		initSettings();
+
 		ClientCommandHandler.instance.registerCommand(pvCmd);
 		ClientCommandHandler.instance.registerCommand(bootyCmd);
 

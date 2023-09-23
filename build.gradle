@@ -23,7 +23,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 group = 'me.waeal.bootymod'
-version = "1.8.9-0.1.2"
+version = "1.8.9-0.0.1"
 archivesBaseName = "BootyMod"
 String modid = "bbm"
 
