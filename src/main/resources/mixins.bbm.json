@@ -1,0 +1,11 @@
+{
+  "required" : true,
+  "verbose" : true,
+  "minVersion" : "0.7.11",
+  "compatibilityLevel" : "JAVA_8",
+  "package" : "me.waeal.bootymod.mixin.mixins",
+  "refmap" : "mixins.bbm.refmap.json",
+  "mixins" : [
+    "AccessorGuiNewChat"
+  ]
+}

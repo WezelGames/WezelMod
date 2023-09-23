@@ -1,0 +1,127 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		maven { url = "https://jitpack.io/" }
+		maven { url = "https://maven.minecraftforge.net/" }
+		maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+	}
+	dependencies {
+		classpath 'com.github.Debuggingss:ForgeGradle:1d22621'
+		classpath 'com.github.xcfrg:MixinGradle:0.6-SNAPSHOT'
+		classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
+	}
+}
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.16'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'maven-publish'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group = 'me.waeal.bootymod'
+version = "1.8.9-0.1.2"
+archivesBaseName = "BootyMod"
+String modid = "bbm"
+
+sourceCompatibility = targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+minecraft {
+	version = "1.8.9-11.15.1.2318-1.8.9"
+	runDir = "run"
+	mappings = "stable_22"
+	makeObfSourceJar = false
+}
+
+configurations {
+	include
+	implementation.extendsFrom(include)
+}
+
+repositories {
+	maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
+	maven { url 'https://maven-eclipse.github.io/maven' }
+	maven { url 'https://jitpack.io/' }
+	maven { url = "https://repo.essential.gg/repository/maven-public" }
+	maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
+	mavenCentral()
+}
+
+dependencies {
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.10"
+	implementation('com.google.code.gson:gson:2.8.9')
+	implementation("gg.essential:vigilance-1.8.9-forge:288")
+	implementation("gg.essential:elementa-1.8.9-forge:600")
+	include("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
+		exclude module: "guava"
+		exclude module: "commons-io"
+		exclude module: "gson"
+		exclude module: "launchwrapper"
+	}
+	annotationProcessor "org.spongepowered:mixin:0.7.11-SNAPSHOT"
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+reobf {
+	shadowJar {
+		mappingType = 'SEARGE'
+		classpath = sourceSets.main.compileClasspath
+	}
+}
+
+mixin {
+	defaultObfuscationEnv searge
+	add sourceSets.main, "mixins.${modid}.refmap.json"
+}
+
+
+shadowJar {
+	archiveFileName = jar.archiveFileName
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	configurations = [project.configurations.include]
+
+	archiveClassifier.set(null)
+	relocate("gg.essential.vigilance", "me.waeal.vigilance")
+	relocate("gg.essential.elementa", "me.waeal.elementa")
+	relocate("gg.essential.universalcraft", "me.waeal.universalcraft")
+}
+
+jar {
+	manifest.attributes(
+			"TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+			"MixinConfigs": "mixins.${modid}.json",
+			"FMLCorePluginContainsFMLMod": true,
+			"ForceLoadAsMod": true
+	)
+
+	enabled = false
+}
+
+tasks.reobfJar.dependsOn(tasks.shadowJar)
+
+processResources
+		{
+			inputs.property "version", project.version
+			inputs.property "mcversion", project.minecraft.version
+
+			from(sourceSets.main.resources.srcDirs) {
+				include 'mcmod.info'
+
+				expand 'version':project.version, 'mcversion':project.minecraft.version
+			}
+
+			from(sourceSets.main.resources.srcDirs) {
+				exclude 'mcmod.info'
+			}
+		}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+springBoot {
+	mainClass = 'net.minecraftforge.GradleStart'
+}
