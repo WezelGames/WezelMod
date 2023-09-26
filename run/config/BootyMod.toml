@@ -1,4 +1,5 @@
 
 [qol]
-	copy_chat = false
+	display_dungeons_stats = false
+	copy_chat = true
 

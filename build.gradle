@@ -119,9 +119,6 @@ processResources
 			}
 		}
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
 springBoot {
 	mainClass = 'net.minecraftforge.GradleStart'
 }

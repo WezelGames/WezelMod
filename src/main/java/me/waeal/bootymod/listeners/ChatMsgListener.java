@@ -16,15 +16,14 @@ public class ChatMsgListener {
     @Autowired
     private ChatServices service;
 
-    private Pattern joinMsgPattern = Pattern.compile("Dungeon Finder > (.[^ ]+) joined the dungeon group! .+");
+    private final Pattern joinMsgPattern = Pattern.compile("Dungeon Finder > (.[^ ]+) joined the dungeon group! .+");
 
     @SubscribeEvent
-    private void chatReceivedEvent(ClientChatReceivedEvent event) {
+    public void chatReceivedEvent(ClientChatReceivedEvent event) {
         if (!Booty.settings.displayDungeonStats) {
             MinecraftForge.EVENT_BUS.unregister(this);
             return;
         }
-
 
         String msg = EnumChatFormatting.getTextWithoutFormattingCodes(event.message.getUnformattedText());
         Matcher m = joinMsgPattern.matcher(msg);
