@@ -1,4 +1,4 @@
-package me.waeal.bootymod.objects;
+package me.waeal.wezelmod.objects;
 
 import gg.essential.elementa.UIComponent;
 import gg.essential.elementa.state.BasicState;

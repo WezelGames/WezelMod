@@ -1,7 +1,9 @@
-package me.waeal.bootymod.commands;
+package me.waeal.wezelmod.commands;
 
-import me.waeal.bootymod.services.BootyServices;
+import me.waeal.wezelmod.services.ProfileServices;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -10,10 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class BootyCommand extends CommandBase {
+public class PVCommand extends CommandBase {
     boolean open = false;
     @Autowired
-    BootyServices services;
+    ProfileServices services;
+    String player;
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender sender) {
@@ -22,18 +25,22 @@ public class BootyCommand extends CommandBase {
 
     @Override
     public String getCommandName() {
-        return "booty";
+        return "pv";
     }
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "booty";
+        return "pv";
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) {
+    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         open = true;
         MinecraftForge.EVENT_BUS.register(this);
+        if (args.length >= 1)
+            player = args[0];
+        else
+            player = Minecraft.getMinecraft().thePlayer.getName();
     }
 
     @SubscribeEvent
@@ -43,6 +50,6 @@ public class BootyCommand extends CommandBase {
             return;
 
         open = false;
-        services.openSettingsGui();
+        services.showInventory(player);
     }
 }

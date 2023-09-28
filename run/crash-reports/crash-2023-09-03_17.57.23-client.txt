@@ -5,11 +5,11 @@ Time: 3-9-23 17:57
 Description: Ticking entity
 
 java.lang.NullPointerException: Ticking entity
-	at me.waeal.bootymod.services.InventoryGui.drawInfo(ProfileServices.java:75)
-	at me.waeal.bootymod.services.Gui.<init>(ProfileServices.java:35)
-	at me.waeal.bootymod.services.InventoryGui.<init>(ProfileServices.java:72)
-	at me.waeal.bootymod.services.ProfileServices.showInventory(ProfileServices.java:25)
-	at me.waeal.bootymod.commands.PVCommand.tick(PVCommand.java:47)
+	at me.waeal.wezelmod.services.InventoryGui.drawInfo(ProfileServices.java:75)
+	at me.waeal.wezelmod.services.Gui.<init>(ProfileServices.java:35)
+	at me.waeal.wezelmod.services.InventoryGui.<init>(ProfileServices.java:72)
+	at me.waeal.wezelmod.services.ProfileServices.showInventory(ProfileServices.java:25)
+	at me.waeal.wezelmod.commands.PVCommand.tick(PVCommand.java:47)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_6_PVCommand_tick_TickEvent.invoke(.dynamic)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:49)
 	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:140)
@@ -42,11 +42,11 @@ A detailed walkthrough of the error, its code path and all known details is as f
 
 -- Head --
 Stacktrace:
-	at me.waeal.bootymod.services.InventoryGui.drawInfo(ProfileServices.java:75)
-	at me.waeal.bootymod.services.Gui.<init>(ProfileServices.java:35)
-	at me.waeal.bootymod.services.InventoryGui.<init>(ProfileServices.java:72)
-	at me.waeal.bootymod.services.ProfileServices.showInventory(ProfileServices.java:25)
-	at me.waeal.bootymod.commands.PVCommand.tick(PVCommand.java:47)
+	at me.waeal.wezelmod.services.InventoryGui.drawInfo(ProfileServices.java:75)
+	at me.waeal.wezelmod.services.Gui.<init>(ProfileServices.java:35)
+	at me.waeal.wezelmod.services.InventoryGui.<init>(ProfileServices.java:72)
+	at me.waeal.wezelmod.services.ProfileServices.showInventory(ProfileServices.java:25)
+	at me.waeal.wezelmod.commands.PVCommand.tick(PVCommand.java:47)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_6_PVCommand_tick_TickEvent.invoke(.dynamic)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:49)
 	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:140)

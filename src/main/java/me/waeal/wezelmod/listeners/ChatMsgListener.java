@@ -1,9 +1,12 @@
-package me.waeal.bootymod.listeners;
+package me.waeal.wezelmod.listeners;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import me.waeal.bootymod.Booty;
-import me.waeal.bootymod.services.ChatServices;
+
+import me.waeal.wezelmod.Main;
+import me.waeal.wezelmod.services.ChatServices;
+import net.minecraft.nbt.NBTException;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,13 +22,13 @@ public class ChatMsgListener {
     private final Pattern joinMsgPattern = Pattern.compile("Dungeon Finder > (.[^ ]+) joined the dungeon group! .+");
 
     @SubscribeEvent
-    public void chatReceivedEvent(ClientChatReceivedEvent event) {
-        if (!Booty.settings.displayDungeonStats) {
+    public void chatReceivedEvent(ClientChatReceivedEvent event) throws NBTException, IOException {
+        if (!Main.settings.displayDungeonStats) {
             MinecraftForge.EVENT_BUS.unregister(this);
             return;
         }
-
         String msg = EnumChatFormatting.getTextWithoutFormattingCodes(event.message.getUnformattedText());
+
         Matcher m = joinMsgPattern.matcher(msg);
         if (m.find())
             service.displayUserInfo(m.group(1));

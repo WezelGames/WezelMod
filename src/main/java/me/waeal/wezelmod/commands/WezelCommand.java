@@ -1,8 +1,7 @@
-package me.waeal.bootymod.commands;
+package me.waeal.wezelmod.commands;
 
-import me.waeal.bootymod.services.ProfileServices;
+import me.waeal.wezelmod.services.WezelServices;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -11,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class PVCommand extends CommandBase {
+public class WezelCommand extends CommandBase {
     boolean open = false;
     @Autowired
-    ProfileServices services;
+    WezelServices services;
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender sender) {
@@ -23,16 +22,16 @@ public class PVCommand extends CommandBase {
 
     @Override
     public String getCommandName() {
-        return "pv";
+        return "wezel";
     }
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "pv";
+        return "wezel";
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    public void processCommand(ICommandSender sender, String[] args) {
         open = true;
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -44,6 +43,6 @@ public class PVCommand extends CommandBase {
             return;
 
         open = false;
-        services.showInventory(null);
+        services.openSettingsGui();
     }
 }

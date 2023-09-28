@@ -1,7 +1,7 @@
-package me.waeal.bootymod.listeners;
+package me.waeal.wezelmod.listeners;
 
-import me.waeal.bootymod.Booty;
-import me.waeal.bootymod.services.ChatServices;
+import me.waeal.wezelmod.Main;
+import me.waeal.wezelmod.services.ChatServices;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,7 +18,7 @@ public class ChatGuiListener {
 
     @SubscribeEvent
     public void chatGuiClickEvent(GuiScreenEvent.MouseInputEvent.Pre event) {
-        if (!Booty.settings.copyChat)
+        if (!Main.settings.copyChat)
             MinecraftForge.EVENT_BUS.unregister(this);
         if (!(event.gui instanceof GuiChat && Mouse.getEventButtonState() && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) || Mouse.getEventButton() < 0)
             return;

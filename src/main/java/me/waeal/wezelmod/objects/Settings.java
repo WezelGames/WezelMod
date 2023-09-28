@@ -1,9 +1,9 @@
-package me.waeal.bootymod.objects;
+package me.waeal.wezelmod.objects;
 
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.*;
-import me.waeal.bootymod.listeners.ChatGuiListener;
-import me.waeal.bootymod.listeners.ChatMsgListener;
+import me.waeal.wezelmod.listeners.ChatGuiListener;
+import me.waeal.wezelmod.listeners.ChatMsgListener;
 import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +25,7 @@ public class Settings extends Vigilant {
     }
 
     public Settings(String configDir) throws Exception {
-        super(new File(configDir + "/BootyMod.toml"), "Booty");
+        super(new File(configDir + "/WezelMod.toml"), "WezelMod");
 
         this.registerListener(getClass().getField("copyChat"), cc -> {
             if ((boolean) cc)

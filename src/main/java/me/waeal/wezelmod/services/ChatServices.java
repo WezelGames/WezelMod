@@ -1,6 +1,6 @@
-package me.waeal.bootymod.services;
+package me.waeal.wezelmod.services;
 
-import me.waeal.bootymod.mixin.mixins.AccessorGuiNewChat;
+import me.waeal.wezelmod.mixin.mixins.AccessorGuiNewChat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.GuiNewChat;
@@ -45,9 +45,9 @@ public class ChatServices {
 
                     try {
                         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(chatline.getChatComponent().getUnformattedText()), null);
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Booty" + EnumChatFormatting.RESET + " > Copied Chat"));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "WezelMod" + EnumChatFormatting.RESET + " > Copied Chat"));
                     } catch (IllegalStateException e) {
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Booty" + EnumChatFormatting.RESET + " > Couldn't Copy Chat, some other software is probably blocking your clipboard."));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "WezelMod" + EnumChatFormatting.RESET + " > Couldn't Copy Chat, some other software is probably blocking your clipboard."));
                     }
                 }
             }

@@ -59,7 +59,7 @@ Stacktrace:
 
 -- Screen render details --
 Details:
-	Screen name: me.waeal.bootymod.services.InventoryGui
+	Screen name: me.waeal.wezelmod.services.InventoryGui
 	Mouse location: Scaled: (213, 119). Absolute: (427, 240)
 	Screen size: Scaled: (427, 240). Absolute: (854, 480). Scale factor of 2
 

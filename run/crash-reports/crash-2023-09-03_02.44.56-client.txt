@@ -5,8 +5,8 @@ Time: 3-9-23 2:44
 Description: Updating screen events
 
 java.lang.NullPointerException: Updating screen events
-	at me.waeal.bootymod.services.ChatServices.copyChat(ChatServices.java:46)
-	at me.waeal.bootymod.listeners.ChatGuiListener.chatGuiClickEvent(ChatGuiListener.java:28)
+	at me.waeal.wezelmod.services.ChatServices.copyChat(ChatServices.java:46)
+	at me.waeal.wezelmod.listeners.ChatGuiListener.chatGuiClickEvent(ChatGuiListener.java:28)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_6_ChatGuiListener_chatGuiClickEvent_Pre.invoke(.dynamic)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:49)
 	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:140)
@@ -34,8 +34,8 @@ A detailed walkthrough of the error, its code path and all known details is as f
 
 -- Head --
 Stacktrace:
-	at me.waeal.bootymod.services.ChatServices.copyChat(ChatServices.java:46)
-	at me.waeal.bootymod.listeners.ChatGuiListener.chatGuiClickEvent(ChatGuiListener.java:28)
+	at me.waeal.wezelmod.services.ChatServices.copyChat(ChatServices.java:46)
+	at me.waeal.wezelmod.listeners.ChatGuiListener.chatGuiClickEvent(ChatGuiListener.java:28)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_6_ChatGuiListener_chatGuiClickEvent_Pre.invoke(.dynamic)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:49)
 	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:140)

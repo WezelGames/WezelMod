@@ -1,4 +1,4 @@
-package me.waeal.bootymod.mixin.mixins;
+package me.waeal.wezelmod.mixin.mixins;
 
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.GuiNewChat;

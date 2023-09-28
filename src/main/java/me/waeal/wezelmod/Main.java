@@ -1,8 +1,8 @@
-package me.waeal.bootymod;
+package me.waeal.wezelmod;
 
-import me.waeal.bootymod.commands.*;
-import me.waeal.bootymod.listeners.*;
-import me.waeal.bootymod.objects.Settings;
+import me.waeal.wezelmod.commands.*;
+import me.waeal.wezelmod.listeners.*;
+import me.waeal.wezelmod.objects.Settings;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -15,8 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
-@Mod(modid = "bbm", name = "BootyMod", version = "1.8.9-MOD_ALPHA")
-public class Booty {
+@Mod(modid = "wem", name = "WezelMod", version = "1.8.9-MOD_ALPHA")
+public class Main {
 	public static Settings settings;
 
 	@Mod.EventHandler
@@ -30,7 +30,7 @@ public class Booty {
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
-		SpringApplication.run(Booty.class, "Booty");
+		SpringApplication.run(Main.class, "Booty");
 	}
 
 	@PostConstruct
@@ -54,7 +54,7 @@ public class Booty {
 	@Autowired
 	public PVCommand pvCmd;
 	@Autowired
-	public BootyCommand bootyCmd;
+	public WezelCommand bootyCmd;
 	@Autowired
 	public ChatGuiListener cgListener;
 	@Autowired

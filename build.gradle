@@ -22,10 +22,10 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-group = 'me.waeal.bootymod'
+group = 'me.waeal.wezelmod'
 version = "1.8.9-0.0.1"
-archivesBaseName = "BootyMod"
-String modid = "bbm"
+archivesBaseName = "WezelMod"
+String modid = "wem"
 
 sourceCompatibility = targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
@@ -56,6 +56,7 @@ dependencies {
 	implementation('com.google.code.gson:gson:2.8.9')
 	implementation("gg.essential:vigilance-1.8.9-forge:288")
 	implementation("gg.essential:elementa-1.8.9-forge:600")
+	implementation 'me.nullicorn:Nedit:2.2.0'
 	include("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
 		exclude module: "guava"
 		exclude module: "commons-io"

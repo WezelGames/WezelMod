@@ -1,4 +1,4 @@
-package me.waeal.bootymod.mixin;
+package me.waeal.wezelmod.mixin;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
@@ -10,7 +10,7 @@ import java.util.Map;
 public class MixinLoader implements IFMLLoadingPlugin {
     public MixinLoader() {
         MixinBootstrap.init();
-        Mixins.addConfiguration("mixins.bbm.json");
+        Mixins.addConfiguration("mixins.wem.json");
         MixinEnvironment.getCurrentEnvironment().setObfuscationContext("searge");
 
     }

@@ -4,8 +4,8 @@
 Time: 3-9-23 1:55
 Description: Updating screen events
 
-java.lang.ClassCastException: net.minecraft.client.gui.GuiNewChat cannot be cast to me.waeal.bootymod.mixin.mixins.AccessorGuiNewChat
-	at me.waeal.bootymod.listeners.ChatGuiListener.chatGuiClickEvent(ChatGuiListener.java:24)
+java.lang.ClassCastException: net.minecraft.client.gui.GuiNewChat cannot be cast to me.waeal.wezelmod.mixin.mixins.AccessorGuiNewChat
+	at me.waeal.wezelmod.listeners.ChatGuiListener.chatGuiClickEvent(ChatGuiListener.java:24)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_6_ChatGuiListener_chatGuiClickEvent_Pre.invoke(.dynamic)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:49)
 	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:140)
@@ -33,7 +33,7 @@ A detailed walkthrough of the error, its code path and all known details is as f
 
 -- Head --
 Stacktrace:
-	at me.waeal.bootymod.listeners.ChatGuiListener.chatGuiClickEvent(ChatGuiListener.java:24)
+	at me.waeal.wezelmod.listeners.ChatGuiListener.chatGuiClickEvent(ChatGuiListener.java:24)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_6_ChatGuiListener_chatGuiClickEvent_Pre.invoke(.dynamic)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:49)
 	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:140)

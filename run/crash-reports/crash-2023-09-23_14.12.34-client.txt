@@ -6,8 +6,8 @@ Description: Initializing game
 
 java.lang.NullPointerException: Initializing game
 	at gg.essential.vigilance.Vigilant.registerListener(Vigilant.kt:837)
-	at me.waeal.bootymod.objects.Settings.<init>(Settings.java:30)
-	at me.waeal.bootymod.Booty.preInit(Booty.java:27)
+	at me.waeal.wezelmod.objects.Settings.<init>(Settings.java:30)
+	at me.waeal.wezelmod.Main.preInit(Booty.java:27)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -59,8 +59,8 @@ A detailed walkthrough of the error, its code path and all known details is as f
 -- Head --
 Stacktrace:
 	at gg.essential.vigilance.Vigilant.registerListener(Vigilant.kt:837)
-	at me.waeal.bootymod.objects.Settings.<init>(Settings.java:30)
-	at me.waeal.bootymod.Booty.preInit(Booty.java:27)
+	at me.waeal.wezelmod.objects.Settings.<init>(Settings.java:30)
+	at me.waeal.wezelmod.Main.preInit(Booty.java:27)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
