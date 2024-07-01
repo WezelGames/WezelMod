@@ -4,7 +4,7 @@
   "minVersion" : "0.7.11",
   "compatibilityLevel" : "JAVA_8",
   "package" : "me.waeal.wezelmod.mixin.mixins",
-  "refmap" : "mixins.bbm.refmap.json",
+  "refmap" : "mixins.wem.refmap.json",
   "mixins" : [
     "AccessorGuiNewChat"
   ]

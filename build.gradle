@@ -7,7 +7,7 @@ buildscript {
 	}
 	dependencies {
 		classpath 'com.github.Debuggingss:ForgeGradle:1d22621'
-		classpath 'com.github.xcfrg:MixinGradle:0.6-SNAPSHOT'
+		classpath 'com.github.xcfrg:MixinGradle:ae2a80e'
 		classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
 	}
 }
@@ -52,11 +52,9 @@ repositories {
 }
 
 dependencies {
-	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.10"
-	implementation('com.google.code.gson:gson:2.8.9')
-	implementation("gg.essential:vigilance-1.8.9-forge:288")
-	implementation("gg.essential:elementa-1.8.9-forge:600")
-	implementation 'me.nullicorn:Nedit:2.2.0'
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.10")
+	include("com.google.code.gson:gson:2.8.9")
+	include("gg.essential:vigilance-1.8.9-forge:297")
 	include("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
 		exclude module: "guava"
 		exclude module: "commons-io"
@@ -64,8 +62,7 @@ dependencies {
 		exclude module: "launchwrapper"
 	}
 	annotationProcessor "org.spongepowered:mixin:0.7.11-SNAPSHOT"
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	include 'org.springframework.boot:spring-boot-starter'
 }
 reobf {
 	shadowJar {
@@ -79,7 +76,7 @@ mixin {
 	add sourceSets.main, "mixins.${modid}.refmap.json"
 }
 
-
+import com.github.jengelman.gradle.plugins.shadow.transformers.*
 shadowJar {
 	archiveFileName = jar.archiveFileName
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
@@ -89,6 +86,15 @@ shadowJar {
 	relocate("gg.essential.vigilance", "me.waeal.vigilance")
 	relocate("gg.essential.elementa", "me.waeal.elementa")
 	relocate("gg.essential.universalcraft", "me.waeal.universalcraft")
+	relocate("com.google.gson", "me.waeal.gson")
+
+	// Required for Spring
+	transform(ServiceFileTransformer) {
+
+		path = 'META-INF'
+
+		include 'spring.*'
+	}
 }
 
 jar {
@@ -121,5 +127,8 @@ processResources
 		}
 
 springBoot {
-	mainClass = 'net.minecraftforge.GradleStart'
+	mainClass = 'me.waeal.wezelmod.Main'
+}
+tasks.named("bootJar") {
+	enabled = false
 }
