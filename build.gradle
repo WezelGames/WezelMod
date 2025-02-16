@@ -54,7 +54,8 @@ repositories {
 dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.10")
 	include("com.google.code.gson:gson:2.8.9")
-	include("gg.essential:vigilance-1.8.9-forge:297")
+	include("gg.essential:vigilance:306")
+	include("gg.essential:universalcraft-1.8.9-forge:371")
 	include("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
 		exclude module: "guava"
 		exclude module: "commons-io"
@@ -62,7 +63,6 @@ dependencies {
 		exclude module: "launchwrapper"
 	}
 	annotationProcessor "org.spongepowered:mixin:0.7.11-SNAPSHOT"
-	include 'org.springframework.boot:spring-boot-starter'
 }
 reobf {
 	shadowJar {

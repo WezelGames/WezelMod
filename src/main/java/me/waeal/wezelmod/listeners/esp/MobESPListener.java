@@ -6,45 +6,34 @@ import me.waeal.wezelmod.Main;
 import me.waeal.wezelmod.services.ESPServices;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraft.item.Item;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 public class MobESPListener {
-    @Autowired
-    ESPServices service;
 
     private final HashSet<Entity> checked = new HashSet<>();
     private final HashSet<Entity> starMobs = new HashSet<>();
 
     public void checkForMobs(Entity entity) {
-        System.out.println("LF Mobs");
         List<Entity> possibleStars = entity.getEntityWorld().getEntitiesInAABBexcluding(
                 entity,
                 entity.getEntityBoundingBox().offset(0d, -1d, 0d),
                 e -> !(e instanceof EntityArmorStand));
 
         for (Entity e : possibleStars) {
-            System.out.println("Possible star mob at " + e.getPosition().getX() + " - " + e.getPosition().getY() + " - " + e.getPosition().getZ());
-            if (!(!starMobs.contains(e) &&
-                    ((e instanceof EntityPlayer && !e.isInvisible() && e.getUniqueID().version() == 2 && e != Minecraft.getMinecraft().thePlayer)
-                    || !(e instanceof EntityWither))))
+            if (starMobs.contains(e) || e == Minecraft.getMinecraft().thePlayer)
                 continue;
 
             starMobs.add(e);
+            checked.add(entity);
             break;
         }
 
-        checked.add(entity);
     }
 
     @SubscribeEvent
@@ -63,13 +52,27 @@ public class MobESPListener {
 
         Minecraft.getMinecraft().theWorld.loadedEntityList.forEach(e -> {
             if (e instanceof EntityArmorStand
+                    && !checked.contains(e)
                     && e.hasCustomName()
-                    && e.getCustomNameTag().contains("✯")
-                    && !checked.contains(e))
+                    && (e.getCustomNameTag().matches(".*✯.*❤")
+                    || e.getCustomNameTag().contains("Shadow Assassin")
+                    || e.getCustomNameTag().contains("Adventurer")
+                    || e.getCustomNameTag().contains("Archeologist")))
                 checkForMobs(e);
 
-            if (starMobs.contains(e))
-                service.drawEntityBox(e, event.partialTicks);
+            if (e instanceof EntityPlayer
+                    && !starMobs.contains(e)
+                    && e.isInvisible()
+                    && ((EntityPlayer) e).getCurrentArmor(0) != null
+                    && ((EntityPlayer) e).getCurrentArmor(0).getItem() == Item.getItemById(301))
+                starMobs.add(e);
+
+            if (!starMobs.contains(e))
+                return;
+
+            ESPServices.drawEntityBox(e, event.partialTicks, Main.settings.mobEsp, Main.settings.mobEspColor);
+            if (e.isInvisible())
+                e.setInvisible(false);
         });
     }
 }

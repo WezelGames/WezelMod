@@ -10,15 +10,13 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Mouse;
-import org.springframework.stereotype.Service;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.util.List;
 
-@Service
 public class ChatServices {
-    public void copyChat() {
+    public static void copyChat() {
         GuiNewChat guiChat = Minecraft.getMinecraft().ingameGUI.getChatGUI();
         AccessorGuiNewChat gui = (AccessorGuiNewChat) guiChat;
         int mouseX = Mouse.getX();
@@ -54,7 +52,7 @@ public class ChatServices {
         }
     }
 
-    private ChatLine findChatLine(List<ChatLine> list, int j, int index) {
+    private static ChatLine findChatLine(List<ChatLine> list, int j, int index) {
         int lineCounter = 0;
         for (ChatLine line : list) {
             lineCounter += GuiUtilRenderComponents.splitText(line.getChatComponent(), j, Minecraft.getMinecraft().fontRendererObj, false, false).size();
@@ -62,9 +60,5 @@ public class ChatServices {
                 return line;
         }
         return null;
-    }
-
-    public void displayUserInfo(String username) {
-
     }
 }

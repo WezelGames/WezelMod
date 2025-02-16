@@ -7,13 +7,8 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ChestESPListener {
-    @Autowired
-    ESPServices service;
 
     @SubscribeEvent
     public void renderChest(RenderWorldLastEvent event) {
@@ -22,7 +17,7 @@ public class ChestESPListener {
 
         Minecraft.getMinecraft().theWorld.loadedTileEntityList.forEach(e -> {
             if (e instanceof TileEntityChest)
-                service.drawBlockBox(e.getPos());
+                ESPServices.drawBlockBox(e.getPos(), Main.settings.chestEsp, Main.settings.chestEspColor);
         });
     }
 }

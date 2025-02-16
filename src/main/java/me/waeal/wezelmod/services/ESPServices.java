@@ -1,24 +1,18 @@
 package me.waeal.wezelmod.services;
 
 import java.awt.*;
-import me.waeal.wezelmod.Main;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import org.lwjgl.opengl.GL11;
-import org.springframework.stereotype.Service;
-import scala.collection.parallel.ParIterableLike;
 
-@Service
 public class ESPServices {
-    public void drawFilledAABB(AxisAlignedBB aabb, Color color) {
+    public static void drawFilledAABB(AxisAlignedBB aabb, Color color) {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
         GL11.glColor4f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
@@ -49,7 +43,7 @@ public class ESPServices {
         tessellator.draw();
     }
 
-    public void drawOutlinedAABB(AxisAlignedBB aabb, Color color) {
+    public static void drawOutlinedAABB(AxisAlignedBB aabb, Color color) {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
         GL11.glColor4f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 1f);
@@ -76,10 +70,10 @@ public class ESPServices {
         tessellator.draw();
     }
 
-    public void drawEntityBox(Entity entity, float partialTicks) {
+    public static void drawEntityBox(Entity entity, float partialTicks, int espSetting, Color espColor) {
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
         double x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * partialTicks - renderManager.viewerPosX;
-        double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks - renderManager.viewerPosY - (entity instanceof EntityArmorStand ? 2 : 0);
+        double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks - renderManager.viewerPosY;
         double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks - renderManager.viewerPosZ;
 
         AxisAlignedBB aabb = new AxisAlignedBB(entity.getEntityBoundingBox().minX - entity.posX,
@@ -89,10 +83,10 @@ public class ESPServices {
                                                entity.getEntityBoundingBox().maxY - entity.posY,
                                                entity.getEntityBoundingBox().maxZ - entity.posZ).offset(x, y, z);
 
-        drawAABB(aabb, Main.settings.mobEsp, Main.settings.mobEspColor);
+        drawAABB(aabb, espSetting, espColor);
     }
 
-    public void drawBlockBox(BlockPos pos) {
+    public static void drawBlockBox(BlockPos pos, int espSetting, Color espColor) {
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
         double x = pos.getX() - renderManager.viewerPosX;
         double y = pos.getY() - renderManager.viewerPosY;
@@ -100,10 +94,10 @@ public class ESPServices {
 
         AxisAlignedBB aabb = new AxisAlignedBB(0, 0, 0, 1, 1, 1).offset(x, y, z);
 
-        drawAABB(aabb, Main.settings.chestEsp, Main.settings.chestEspColor);
+        drawAABB(aabb, espSetting, espColor);
     }
 
-    private void drawAABB(AxisAlignedBB aabb, int setting, Color color) {
+    private static void drawAABB(AxisAlignedBB aabb, int setting, Color color) {
         GL11.glPushMatrix();
         GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

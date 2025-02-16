@@ -5,14 +5,9 @@ import me.waeal.wezelmod.services.WezelServices;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
-@Controller
 public class WezelCommand {
     boolean open = false;
-    @Autowired
-    WezelServices services;
 
     private final Command command = new Command ("wezel", "wezel", (sender, args) -> {
         open = true;
@@ -30,6 +25,6 @@ public class WezelCommand {
             return;
 
         open = false;
-        services.openSettingsGui();
+        WezelServices.openSettingsGui();
     }
 }
