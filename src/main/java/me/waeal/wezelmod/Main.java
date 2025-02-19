@@ -36,6 +36,7 @@ public class Main {
 		settings.regBooleanListener("harp" , harpGuiListener);
 		settings.regBooleanListener("melody" , melodyGuiListener);
 		settings.regBooleanListener("thickOfIt" , thickOfItListener);
+
 		settings.regMultipleChoiceListener("mobEsp" , mobEspListener, 1);
 		settings.regMultipleChoiceListener("chestEsp" , chestESPListener, 1);
 		settings.regMultipleChoiceListener("corpseEsp" , corpseESPListener, 1);

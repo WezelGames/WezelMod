@@ -14,8 +14,6 @@ buildscript {
 
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '2.7.16'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven-publish'
@@ -125,10 +123,3 @@ processResources
 				exclude 'mcmod.info'
 			}
 		}
-
-springBoot {
-	mainClass = 'me.waeal.wezelmod.Main'
-}
-tasks.named("bootJar") {
-	enabled = false
-}

@@ -3,6 +3,8 @@ package me.waeal.wezelmod.objects;
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.*;
 import java.awt.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.command.ICommandSender;
 import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -173,7 +175,16 @@ public class Settings extends Vigilant {
             name = "Wither ESP Color",
             description = "Color picker to choose what color to highlight withers with",
             category = "ESP")
-    public Color witherEspColor = new Color(0, 255, 0, 10);
+    public Color witherEspColor = new Color(9, 9, 9, 110);
+
+    @Property(type = PropertyType.BUTTON,
+            name = "White Space - Does nothing",
+            description = "White Space for the color picker above",
+            category = "ESP")
+    public void whiteSpace() {
+        Minecraft.getMinecraft().thePlayer.sendChatMessage("MEOW");
+    }
+
 }
 
 class Sorting extends SortingBehavior {

@@ -26,17 +26,20 @@ public class ThickOfItListener {
             MinecraftForge.EVENT_BUS.unregister(this);
         if (event.message.getUnformattedText().toLowerCase().contains("thick of it")
                 && !event.message.getUnformattedText().contains("I'm in the thick of it, everybody knows")) {
-            toiThread.interrupt();
+            if (toiThread != null)
+                toiThread.interrupt();
+
             toiThread = new Thread(() -> {
                 try {
                     for (String str : response) {
                         Thread.sleep(1700);
-                        Minecraft.getMinecraft().thePlayer.sendChatMessage("/pc " + str);
+                        Minecraft.getMinecraft().thePlayer.sendChatMessage("/pc" + str);
                     }
                 } catch (InterruptedException e) {
                     // killed thread
                 }
             });
+
             toiThread.start();
         }
     }
