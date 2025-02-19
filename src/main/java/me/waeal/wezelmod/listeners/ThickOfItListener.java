@@ -33,7 +33,7 @@ public class ThickOfItListener {
                 try {
                     for (String str : response) {
                         Thread.sleep(1700);
-                        Minecraft.getMinecraft().thePlayer.sendChatMessage("/pc" + str);
+                        Minecraft.getMinecraft().thePlayer.sendChatMessage("/pc " + str);
                     }
                 } catch (InterruptedException e) {
                     // killed thread
