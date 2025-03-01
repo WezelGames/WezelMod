@@ -21,7 +21,7 @@ public class HarpGuiListener {
 
         GuiChest gui = (GuiChest) event.gui;
 
-        if (!GuiServices.getName(gui).contains("Harp") || !GuiServices.updatedInv(gui))
+        if (!GuiServices.getName(gui).contains("Harp") || !GuiServices.isUpdatedInv(gui))
             return;
 
         boolean pressed = false;

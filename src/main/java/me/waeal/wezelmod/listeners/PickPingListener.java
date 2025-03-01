@@ -37,7 +37,7 @@ public class PickPingListener {
             MinecraftForge.EVENT_BUS.unregister(this);
 
         if (!(event.getPacket() instanceof S23PacketBlockChange)
-                || ((S23PacketBlockChange) event.getPacket()).getBlockState().getBlock() == Block.getBlockById(0)
+                || ((S23PacketBlockChange) event.getPacket()).getBlockState().getBlock() == Block.getBlockById(0) // must not be air
                 || !positions.contains(((S23PacketBlockChange) event.getPacket()).getBlockPosition()))
             return;
 

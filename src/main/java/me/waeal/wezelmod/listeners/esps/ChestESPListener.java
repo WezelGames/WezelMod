@@ -1,4 +1,4 @@
-package me.waeal.wezelmod.listeners.esp;
+package me.waeal.wezelmod.listeners.esps;
 
 import me.waeal.wezelmod.Main;
 import me.waeal.wezelmod.services.ESPServices;

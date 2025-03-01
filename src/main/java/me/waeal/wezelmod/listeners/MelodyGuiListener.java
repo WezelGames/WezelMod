@@ -19,7 +19,7 @@ public class MelodyGuiListener {
 
         GuiChest gui = (GuiChest) event.gui;
 
-        if (!GuiServices.getName(gui).equals("Click the button on time!") || !GuiServices.updatedInv(gui))
+        if (!GuiServices.getName(gui).equals("Click the button on time!") || !GuiServices.isUpdatedInv(gui))
             return;
 
         for (int i = 1; i < 6; i++) {

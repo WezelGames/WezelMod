@@ -1,4 +1,4 @@
-package me.waeal.wezelmod.listeners.esp;
+package me.waeal.wezelmod.listeners.esps;
 
 import me.waeal.wezelmod.Main;
 import me.waeal.wezelmod.services.ESPServices;
@@ -10,7 +10,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CorpseESPListener {
-
     @SubscribeEvent
     public void renderEntity(RenderWorldLastEvent event) {
         if (Main.settings.corpseEsp == 0)

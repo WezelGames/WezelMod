@@ -6,15 +6,13 @@ buildscript {
 		maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
 	}
 	dependencies {
-		classpath 'com.github.Debuggingss:ForgeGradle:1d22621'
-		classpath 'com.github.xcfrg:MixinGradle:ae2a80e'
-		classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
+		classpath ('com.github.Debuggingss:ForgeGradle:1d22621')
+		classpath ('com.github.xcfrg:MixinGradle:ae2a80e')
+		classpath ('com.github.jengelman.gradle.plugins:shadow:6.1.0')
 	}
 }
 
-plugins {
-	id 'java'
-}
+apply plugin: 'java'
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
@@ -45,14 +43,13 @@ repositories {
 	maven { url 'https://maven-eclipse.github.io/maven' }
 	maven { url 'https://jitpack.io/' }
 	maven { url = "https://repo.essential.gg/repository/maven-public" }
-	maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
 	mavenCentral()
 }
 
 dependencies {
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.10")
-	include("com.google.code.gson:gson:2.8.9")
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"
 	include("gg.essential:vigilance:306")
+	include("gg.essential:elementa:685")
 	include("gg.essential:universalcraft-1.8.9-forge:371")
 	include("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
 		exclude module: "guava"
@@ -60,8 +57,12 @@ dependencies {
 		exclude module: "gson"
 		exclude module: "launchwrapper"
 	}
+
+	implementation("com.mojang:netty:1.8.8")
+
 	annotationProcessor "org.spongepowered:mixin:0.7.11-SNAPSHOT"
 }
+
 reobf {
 	shadowJar {
 		mappingType = 'SEARGE'
@@ -80,19 +81,14 @@ shadowJar {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	configurations = [project.configurations.include]
 
+	// Include all compiled classes
+	from sourceSets.main.output
 	archiveClassifier.set(null)
 	relocate("gg.essential.vigilance", "me.waeal.vigilance")
 	relocate("gg.essential.elementa", "me.waeal.elementa")
 	relocate("gg.essential.universalcraft", "me.waeal.universalcraft")
-	relocate("com.google.gson", "me.waeal.gson")
 
-	// Required for Spring
-	transform(ServiceFileTransformer) {
-
-		path = 'META-INF'
-
-		include 'spring.*'
-	}
+	mergeServiceFiles()
 }
 
 jar {
@@ -103,23 +99,21 @@ jar {
 			"ForceLoadAsMod": true
 	)
 
-	enabled = false
+	enabled = true
 }
 
 tasks.reobfJar.dependsOn(tasks.shadowJar)
 
-processResources
-		{
-			inputs.property "version", project.version
-			inputs.property "mcversion", project.minecraft.version
+processResources {
+	inputs.property "version", project.version
+	inputs.property "mcversion", project.minecraft.version
 
-			from(sourceSets.main.resources.srcDirs) {
-				include 'mcmod.info'
+	from(sourceSets.main.resources.srcDirs) {
+		include 'mcmod.info'
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+	}
 
-				expand 'version':project.version, 'mcversion':project.minecraft.version
-			}
-
-			from(sourceSets.main.resources.srcDirs) {
-				exclude 'mcmod.info'
-			}
-		}
+	from(sourceSets.main.resources.srcDirs) {
+		exclude 'mcmod.info'
+	}
+}

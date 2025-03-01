@@ -1,19 +1,18 @@
 package me.waeal.wezelmod.objects;
 
 import gg.essential.vigilance.Vigilant;
-import gg.essential.vigilance.data.*;
+import gg.essential.vigilance.data.Property;
+import gg.essential.vigilance.data.PropertyType;
 import java.awt.*;
+import me.waeal.wezelmod.services.WezelServices;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.ICommandSender;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-
 import java.io.File;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 
 public class Settings extends Vigilant {
     public void regBooleanListener(@NotNull @NonNls String field, Object listener) throws Exception {
@@ -51,6 +50,12 @@ public class Settings extends Vigilant {
         this.addDependency(getClass().getField("melodyRandomSkipDelay"), getClass().getField("melodySkip"));
     }
 
+    @Property(type = PropertyType.PARAGRAPH,
+            name = "Mod ID Hider (comma separated)",
+            description = "Will hide mod ID's, comma separated",
+            category = "Other Mods")
+    public String hiddenModIds = "wem";
+
     @Property(type = PropertyType.SWITCH,
             name = "Copy Chat",
             description = "Ctrl + click to copy chat messages",
@@ -61,8 +66,14 @@ public class Settings extends Vigilant {
     @Property(type = PropertyType.SWITCH,
             name = "In the thick of it",
             description = "Will respond to anyone saying the thick of it",
-            category = "QOL")
+            category = "Songs")
     public boolean thickOfIt = false;
+
+    @Property(type = PropertyType.SWITCH,
+            name = "Sigma sigma boy",
+            description = "Will respond to anyone saying sigma",
+            category = "Songs")
+    public boolean sigmaBoy = false;
 
     @Property(type = PropertyType.SWITCH,
             name = "Pick ping (M7 time Coop)",
@@ -87,7 +98,6 @@ public class Settings extends Vigilant {
             name = "Auto Harp - Click delay (in case ur name is Coop)",
             description = "Set the delay for clicks",
             category = "QOL",
-            min = 0,
             max = 200)
     public int harpDelay = 0;
 
@@ -113,7 +123,6 @@ public class Settings extends Vigilant {
             name = "Auto Melody - Skip delay (ms)",
             description = "Set the delay between clicks (higher is safer, but also less likely to skip)",
             category = "QOL",
-            min = 0,
             max = 150)
     public int melodySkipDelay = 80;
 
@@ -121,7 +130,6 @@ public class Settings extends Vigilant {
             name = "Auto Melody - Random skip delay (ms)",
             description = "Adds a layer of randomness to the delay between clicks (higher is safer, but also less likely to skip)",
             category = "QOL",
-            min = 0,
             max = 150)
     public int melodyRandomSkipDelay = 20;
 
@@ -185,17 +193,56 @@ public class Settings extends Vigilant {
         Minecraft.getMinecraft().thePlayer.sendChatMessage("MEOW");
     }
 
-}
+    @Property(type = PropertyType.SWITCH,
+            name = "Proxy(SOCKS5 only) Toggle",
+            description = "Proxy toggle",
+            category = "Proxy")
+    public boolean proxyEnabled = false;
 
-class Sorting extends SortingBehavior {
-    @NotNull
-    @Override
-    public Comparator<? super Category> getCategoryComparator() {
-        return (o1, o2) -> 0;
-    }
-    @NotNull
-    @Override
-    public Comparator<? super Map.Entry<String, ? extends List<PropertyData>>> getSubcategoryComparator() {
-        return (o1, o2) -> 0;
+    @Property(type = PropertyType.TEXT,
+            name = "IP",
+            description = "IP of the proxy to connect to",
+            category = "Proxy")
+    public String proxyIP = "";
+
+    @Property(type = PropertyType.TEXT,
+            name = "Port",
+            description = "Port of the proxy to connect to",
+            category = "Proxy")
+    public String proxyPort = "8080";
+
+    @Property(type = PropertyType.TEXT,
+            name = "Username",
+            description = "Username, in case it's needed for the proxy",
+            category = "Proxy")
+    public String proxyUser = "";
+
+    @Property(type = PropertyType.TEXT,
+            name = "Password",
+            description = "Password, in case it's needed for the proxy",
+            category = "Proxy")
+    public String proxyPass = "";
+
+    @Property(type = PropertyType.SWITCH,
+            name = "Macro General Toggle",
+            description = "General macro toggle",
+            category = "Macro")
+    public boolean macroToggle = false;
+
+    @Property(type = PropertyType.COLOR,
+            name = "Menu Background Color",
+            description = "Color picker to choose the background color of the macro menu",
+            category = "Macro")
+    public Color macroBackgroundColor = new Color(0, 0, 0, 50);
+
+    @Property(type = PropertyType.BUTTON,
+            name = "Open Menu - /wezelmacro",
+            description = "Button to open the menu",
+            category = "Macro")
+    public void openMacroMenu() {
+        if (!macroToggle)
+            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Enable " + EnumChatFormatting.RESET + "the macro toggle in the general settings menu first! (/wezel -> Macro)"));
+        else
+            WezelServices.openMacroNavGui();
     }
 }
