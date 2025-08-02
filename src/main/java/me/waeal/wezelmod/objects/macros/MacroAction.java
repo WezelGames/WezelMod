@@ -32,6 +32,7 @@ public class MacroAction {
                 break;
             case KEY_CLICK:
                 KeyBinding.onTick(keyCode);
+                break;
             case KEY_PRESS:
                 KeyBinding.setKeyBindState(keyCode, true);
                 break;

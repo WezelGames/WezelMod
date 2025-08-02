@@ -4,6 +4,7 @@ import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
 import java.awt.*;
+import me.waeal.wezelmod.Main;
 import me.waeal.wezelmod.services.WezelServices;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
@@ -40,6 +41,11 @@ public class Settings extends Vigilant {
     public Settings(String configDir) throws Exception {
         super(new File(configDir + "/WezelMod.toml"), "WezelMod");
 
+        this.registerListener(getClass().getField("macroToggle"), cc -> {
+            if (!((boolean) cc))
+                Main.macroConfig.interrupt();
+        });
+
         this.addDependency(getClass().getField("pickDelay"), getClass().getField("pickPing"));
 
         this.addDependency(getClass().getField("harpDelay"), getClass().getField("harp"));
@@ -55,13 +61,6 @@ public class Settings extends Vigilant {
             description = "Will hide mod ID's, comma separated",
             category = "Other Mods")
     public String hiddenModIds = "wem";
-
-    @Property(type = PropertyType.SWITCH,
-            name = "Copy Chat",
-            description = "Ctrl + click to copy chat messages",
-            category = "Hidden",
-            hidden = true)
-    public boolean copyChat = false;
 
     @Property(type = PropertyType.SWITCH,
             name = "In the thick of it",
@@ -234,6 +233,12 @@ public class Settings extends Vigilant {
             description = "Color picker to choose the background color of the macro menu",
             category = "Macro")
     public Color macroBackgroundColor = new Color(0, 0, 0, 50);
+
+    @Property(type = PropertyType.SWITCH,
+            name = "Copy Chat - The same way it looks for messages",
+            description = "Ctrl + click to copy chat messages",
+            category = "Macro")
+    public boolean copyChat = false;
 
     @Property(type = PropertyType.BUTTON,
             name = "Open Menu - /wezelmacro",

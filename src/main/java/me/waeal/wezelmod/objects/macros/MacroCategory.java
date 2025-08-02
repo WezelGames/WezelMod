@@ -11,10 +11,8 @@ public class MacroCategory {
     public MacroCategory(String name) {
         expanded = MacroConfigManager.getConfig().get(name, "expanded", false).getBoolean();
         enabled = MacroConfigManager.getConfig().get(name, "enabled", false).getBoolean();
-        for (String macro : MacroConfigManager.getConfig().get(name, "macroNames", new String[]{}).getStringList()) {
-            System.out.println("LOADING " + macro);
+        for (String macro : MacroConfigManager.getConfig().get(name, "macroNames", new String[]{}).getStringList())
             addMacro(macro, new Macro(name + "." + macro));
-        }
     }
 
     public MacroCategory() {
@@ -23,6 +21,14 @@ public class MacroCategory {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+
+        if (!enabled)
+            interrupt();
+    }
+
+    public void interrupt() {
+        for (Macro macro : macros.values())
+            macro.interrupt();
     }
 
     public boolean isEnabled() {

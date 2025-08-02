@@ -30,6 +30,8 @@ public class MacroConfigManager {
     }
 
     public static void saveConfig(MacroConfig macroConfig) {
+        
+
         macroConfig.save();
 
         if (config.hasChanged()) {

@@ -7,7 +7,9 @@ public enum MacroRequirementType {
     MESSAGE_CONTAINS("MESSAGE_CONTAINS"),
     MESSAGE_EQUALS("MESSAGE_EQUALS"),
     POSITION("POSITION"),
-    ON_ENTER("ON_ENTER");
+    ON_ENTER("ON_ENTER"),
+    KEY_DOWN("KEY_DOWN"),
+    KEY_UP("KEY_UP");
 
     private final String name;
 
@@ -25,7 +27,9 @@ public enum MacroRequirementType {
                 MESSAGE_CONTAINS.toString(),
                 MESSAGE_EQUALS.toString(),
                 POSITION.toString(),
-                ON_ENTER.toString()
+                ON_ENTER.toString(),
+                KEY_DOWN.toString(),
+                KEY_UP.toString()
         );
     }
 }

@@ -6,6 +6,7 @@ import me.waeal.wezelmod.Main;
 import me.waeal.wezelmod.services.ESPServices;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -21,6 +22,7 @@ public class MobESPListener {
         List<Entity> found = e.getEntityWorld().getEntitiesInAABBexcluding(
                 e, e.getEntityBoundingBox().offset(0d, -1d, 0d),
                 entity -> !(entity instanceof EntityArmorStand)
+                            && !(entity instanceof EntityWither)
                             && !starMobs.contains(entity)
                             && entity != Minecraft.getMinecraft().thePlayer);
 

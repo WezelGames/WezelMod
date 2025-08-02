@@ -1,21 +1,25 @@
 package me.waeal.wezelmod.objects.macros;
 
 import java.util.List;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 public class MacroRequirement {
     private MacroRequirementType type;
     private double minX, maxX, minY, maxY, minZ, maxZ;
     private String messageText;
+    private int keyCode;
     private boolean metLastTime;
 
     public MacroRequirement(String category) {
         type = MacroRequirementType.valueOf(MacroConfigManager.getConfig().get(category, "type", MacroRequirementType.MESSAGE_CONTAINS.toString()).getString());
-        minX = MacroConfigManager.getConfig().get(category, "minX", Double.MIN_VALUE).getDouble();
-        minY = MacroConfigManager.getConfig().get(category, "minY", Double.MIN_VALUE).getDouble();
-        minZ = MacroConfigManager.getConfig().get(category, "minZ", Double.MIN_VALUE).getDouble();
-        maxX = MacroConfigManager.getConfig().get(category, "maxX", Double.MAX_VALUE).getDouble();
-        maxY = MacroConfigManager.getConfig().get(category, "maxY", Double.MAX_VALUE).getDouble();
-        maxZ = MacroConfigManager.getConfig().get(category, "maxZ", Double.MAX_VALUE).getDouble();
+        minX = MacroConfigManager.getConfig().get(category, "minX", 0d).getDouble();
+        minY = MacroConfigManager.getConfig().get(category, "minY", 0d).getDouble();
+        minZ = MacroConfigManager.getConfig().get(category, "minZ", 0d).getDouble();
+        maxX = MacroConfigManager.getConfig().get(category, "maxX", 0d).getDouble();
+        maxY = MacroConfigManager.getConfig().get(category, "maxY", 0d).getDouble();
+        maxZ = MacroConfigManager.getConfig().get(category, "maxZ", 0d).getDouble();
+        keyCode = MacroConfigManager.getConfig().get(category, "keyCode", 0).getInt();
         messageText = MacroConfigManager.getConfig().get(category, "messageText", "MEOW").getString();
     }
 
@@ -46,6 +50,48 @@ public class MacroRequirement {
                         metLastTime = true;
                 }
                 return metLastTime;
+            case KEY_DOWN:
+                if (keyCode < 0) {
+                    if (metLastTime && !Mouse.isButtonDown(keyCode + 100)) {
+                        metLastTime = false;
+                        return false;
+                    }
+                    if (!metLastTime && Mouse.isButtonDown(keyCode + 100)) {
+                        metLastTime = true;
+                        return true;
+                    }
+                } else {
+                    if (metLastTime && !Keyboard.isKeyDown(keyCode)) {
+                        metLastTime = false;
+                        return false;
+                    }
+                    if (!metLastTime && Keyboard.isKeyDown(keyCode)) {
+                        metLastTime = true;
+                        return true;
+                    }
+                }
+                return false;
+            case KEY_UP:
+                if (keyCode < 0) {
+                    if (metLastTime && Mouse.isButtonDown(keyCode + 100)) {
+                        metLastTime = false;
+                        return false;
+                    }
+                    if (!metLastTime && !Mouse.isButtonDown(keyCode + 100)) {
+                        metLastTime = true;
+                        return true;
+                    }
+                } else {
+                    if (metLastTime && Keyboard.isKeyDown(keyCode)) {
+                        metLastTime = false;
+                        return false;
+                    }
+                    if (!metLastTime && !Keyboard.isKeyDown(keyCode)) {
+                        metLastTime = true;
+                        return true;
+                    }
+                }
+                return false;
         }
         return false;
     }
@@ -66,14 +112,23 @@ public class MacroRequirement {
         return isMet(message, 0, 0, 0);
     }
     
+    public boolean isMet() {
+        if (type != MacroRequirementType.KEY_DOWN
+                && type != MacroRequirementType.KEY_UP)
+            return false;
+        
+        return isMet(null, 0, 0, 0);
+    }
+    
     public void save(String category) {
         MacroConfigManager.getConfig().get(category, "type", MacroRequirementType.MESSAGE_CONTAINS.toString()).set(type.toString());
-        MacroConfigManager.getConfig().get(category, "minX", Double.MIN_VALUE).set(minX);
-        MacroConfigManager.getConfig().get(category, "minY", Double.MIN_VALUE).set(minY);
-        MacroConfigManager.getConfig().get(category, "minZ", Double.MIN_VALUE).set(minZ);
-        MacroConfigManager.getConfig().get(category, "maxX", Double.MAX_VALUE).set(maxX);
-        MacroConfigManager.getConfig().get(category, "maxY", Double.MAX_VALUE).set(maxY);
-        MacroConfigManager.getConfig().get(category, "maxZ", Double.MAX_VALUE).set(maxZ);
+        MacroConfigManager.getConfig().get(category, "minX", 0d).set(minX);
+        MacroConfigManager.getConfig().get(category, "minY", 0d).set(minY);
+        MacroConfigManager.getConfig().get(category, "minZ", 0d).set(minZ);
+        MacroConfigManager.getConfig().get(category, "maxX", 0d).set(maxX);
+        MacroConfigManager.getConfig().get(category, "maxY", 0d).set(maxY);
+        MacroConfigManager.getConfig().get(category, "maxZ", 0d).set(maxZ);
+        MacroConfigManager.getConfig().get(category, "keyCode", 0).set(keyCode);
         MacroConfigManager.getConfig().get(category, "messageText", "MEOW").set(messageText);
     }
 
@@ -124,6 +179,10 @@ public class MacroRequirement {
         return maxY;
     }
 
+    public int getKeyCode() {
+        return keyCode;
+    }
+
     public double getMaxZ() {
         return maxZ;
     }
@@ -150,5 +209,9 @@ public class MacroRequirement {
 
     public void setMaxZ(double maxZ) {
         this.maxZ = maxZ;
+    }
+
+    public void setKeyCode(int keyCode) {
+        this.keyCode = keyCode;
     }
 }

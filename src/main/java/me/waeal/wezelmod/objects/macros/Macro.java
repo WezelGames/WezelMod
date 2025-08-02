@@ -7,12 +7,12 @@ public class Macro {
     private final MacroRequirement requirement;
     private final List<MacroAction> actions = new ArrayList<>();
     private boolean enabled;
-    private volatile boolean active = false;
+    private Thread thread;
 
     public Macro(String category) {
         enabled = MacroConfigManager.getConfig().get(category, "enabled", false).getBoolean();
         requirement = new MacroRequirement(category + ".requirements");
-        for (int action = 0; action < MacroConfigManager.getConfig().get(category, "actions", "").getInt(); action++)
+        for (int action = 0; action < MacroConfigManager.getConfig().get(category, "actions", 0).getInt(); action++)
             addAction(new MacroAction(category + "." + action));
     }
 
@@ -22,6 +22,14 @@ public class Macro {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+
+        if (!enabled)
+            interrupt();
+    }
+
+    public void interrupt() {
+        if (thread != null)
+            thread.interrupt();
     }
 
     public boolean isEnabled() {
@@ -41,11 +49,9 @@ public class Macro {
     }
 
     public void execute() {
-        if (active)
-            return;
+        if (thread != null) return;
 
-        active = true;
-        new Thread(() -> {
+        thread = new Thread(() -> {
             try {
                 for (MacroAction action : actions) {
                     action.perform();
@@ -53,9 +59,10 @@ public class Macro {
             } catch (Exception ignored) {
                 // Interrupted
             } finally {
-                active = false;
+                thread = null;
             }
-        }).start();
+        });
+        thread.start();
     }
 
     public void save(String category) {

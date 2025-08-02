@@ -36,6 +36,8 @@ public class WezelMacroCommand {
 
         if (args.length == 1) {
             Main.settings.macroToggle = (!Main.settings.macroToggle && disable) || enable;
+            if (Main.settings.macroToggle)
+                MinecraftForge.EVENT_BUS.register(Main.macroListener);
             Main.settings.markDirty();
             if (Main.settings.macroToggle)
                 Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Enabled " + EnumChatFormatting.RESET + "all macros"));

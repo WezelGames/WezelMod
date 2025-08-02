@@ -11,6 +11,11 @@ public class MacroConfig {
             addCategory(name, new MacroCategory(name));
     }
 
+    public void interrupt() {
+        for (MacroCategory category : categories.values())
+            category.interrupt();
+    }
+
     public Map<String, MacroCategory> getCategories() {
         return categories;
     }

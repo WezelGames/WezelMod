@@ -21,6 +21,7 @@ import org.lwjgl.input.Mouse;
 public class MacroEditGuiScreen extends WindowScreen {
     private final Macro macro;
     private MacroAction selectedKeycodeAction;
+    private MacroRequirement selectedKeycodeRequirement;
 
     public MacroEditGuiScreen(Macro macro) {
         super(ElementaVersion.V7, true, false, false, -1);
@@ -33,10 +34,14 @@ public class MacroEditGuiScreen extends WindowScreen {
         ScrollComponent actionList = GuiServices.prepWindow("Macro Editor", new PixelConstraint(getWindow().getHeight() - 70), getWindow(), true);
 
         getWindow().getChildren().get(0).onMouseClickConsumer(event -> {
-            if (this.selectedKeycodeAction == null)
+            if (this.selectedKeycodeAction == null && this.selectedKeycodeRequirement == null)
                 return;
 
-            this.selectedKeycodeAction.setKeyCode(-100 + event.getMouseButton());
+            if (this.selectedKeycodeAction != null)
+                this.selectedKeycodeAction.setKeyCode(-100 + event.getMouseButton());
+            else
+                this.selectedKeycodeRequirement.setKeyCode(-100 + event.getMouseButton());
+
             event.stopPropagation();
             getWindow().unfocus();
         });
@@ -157,6 +162,37 @@ public class MacroEditGuiScreen extends WindowScreen {
                 requirementsHeader.addChild(maxX);
                 requirementsHeader.addChild(maxY);
                 requirementsHeader.addChild(maxZ);
+                break;
+            case KEY_UP:
+            case KEY_DOWN:
+                String value;
+                if (macro.getRequirement().getKeyCode() >= 0)
+                    value = Keyboard.getKeyName(macro.getRequirement().getKeyCode());
+                else
+                    value = Mouse.getButtonName(macro.getRequirement().getKeyCode() + 100);
+                UITextInput keyCode = (UITextInput) new UITextInput(value)
+                        .setWidth(new PixelConstraint(50))
+                        .setY(new CenterConstraint())
+                        .setX(new PixelConstraint(getWindow().getWidth()-75));
+                keyCode.onMouseClickConsumer(event -> {
+                    event.stopPropagation();
+                    getWindow().focus(keyCode);
+                }).onFocus(component -> {
+                    keyCode.setActive(true);
+                    selectedKeycodeRequirement = macro.getRequirement();
+                    return null;
+                }).onFocusLost(component -> {
+                    keyCode.setActive(false);
+                    MacroConfigManager.saveConfig(Main.macroConfig);
+                    initScreen(width, height);
+                    this.selectedKeycodeRequirement = null;
+                    return null;
+                }).onKeyTypeConsumer((c, i) -> {
+                    macro.getRequirement().setKeyCode(i);
+                    selectedKeycodeRequirement = null;
+                    getWindow().unfocus();
+                });
+                requirementsHeader.addChild(keyCode);
                 break;
         }
 

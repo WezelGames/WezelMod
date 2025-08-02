@@ -7,9 +7,11 @@ import me.waeal.wezelmod.listeners.esps.*;
 import me.waeal.wezelmod.listeners.songs.*;
 import me.waeal.wezelmod.objects.macros.*;
 import me.waeal.wezelmod.objects.Settings;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -19,15 +21,17 @@ public class Main {
 	public static Settings settings;
 	public static MacroConfig macroConfig;
 
+	public static KeyBinding freeMouseBind = new KeyBinding("Free Mouse", 0, "WezelMod");
+
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws Exception {
+		macroConfig = MacroConfigManager.loadConfig(event);
+		MacroConfigManager.saveConfig(macroConfig);
+
 		settings = new Settings(event.getModConfigurationDirectory().getPath());
 		settings.initialize();
 		settings.markDirty();
 		settings.loadData();
-
-		macroConfig = MacroConfigManager.loadConfig(event);
-		MacroConfigManager.saveConfig(macroConfig);
 
 		initSettings();
 
@@ -36,6 +40,9 @@ public class Main {
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
+		ClientRegistry.registerKeyBinding(freeMouseBind);
+		MinecraftForge.EVENT_BUS.register(freeMouseKeybindListener);
+
 		ClientCommandHandler.instance.registerCommand(wezelCommand.getCommand());
 		ClientCommandHandler.instance.registerCommand(wezelMacroCommand.getCommand());
 
@@ -53,28 +60,29 @@ public class Main {
 
 		settings.regBooleanListener("macroToggle" , macroListener);
 
-		settings.regMultipleChoiceListener("mobEsp" , mobEspListener, 1);
+		settings.regMultipleChoiceListener("mobEsp" , mobESPListener, 1);
 		settings.regMultipleChoiceListener("chestEsp" , chestESPListener, 1);
 		settings.regMultipleChoiceListener("corpseEsp" , corpseESPListener, 1);
 		settings.regMultipleChoiceListener("witherEsp" , witherESPListener, 1);
 	}
 
-	public WezelCommand wezelCommand = new WezelCommand();
-	public WezelMacroCommand wezelMacroCommand = new WezelMacroCommand();
-	public PacketEventHandler packetEventHandler = new PacketEventHandler();
-	public MacroListener macroListener = new MacroListener();
+	public static WezelCommand wezelCommand = new WezelCommand();
+	public static WezelMacroCommand wezelMacroCommand = new WezelMacroCommand();
+	public static PacketEventHandler packetEventHandler = new PacketEventHandler();
+	public static MacroListener macroListener = new MacroListener();
+	public static FreeMouseKeybindingListener freeMouseKeybindListener = new FreeMouseKeybindingListener();
 
-	public PickPingListener pickPingListener = new PickPingListener();
+	public static PickPingListener pickPingListener = new PickPingListener();
 
-	public ThickOfItListener thickOfItListener = new ThickOfItListener();
-	public SigmaBoyListener sigmaBoyListener = new SigmaBoyListener();
+	public static ThickOfItListener thickOfItListener = new ThickOfItListener();
+	public static SigmaBoyListener sigmaBoyListener = new SigmaBoyListener();
 
-	public ChatGuiListener chatGuiListener = new ChatGuiListener();
-	public HarpGuiListener harpGuiListener = new HarpGuiListener();
-	public MelodyGuiListener melodyGuiListener = new MelodyGuiListener();
+	public static ChatGuiListener chatGuiListener = new ChatGuiListener();
+	public static HarpGuiListener harpGuiListener = new HarpGuiListener();
+	public static MelodyGuiListener melodyGuiListener = new MelodyGuiListener();
 
-	public MobESPListener mobEspListener = new MobESPListener();
-	public ChestESPListener chestESPListener = new ChestESPListener();
-	public CorpseESPListener corpseESPListener = new CorpseESPListener();
-	public WitherESPListener witherESPListener = new WitherESPListener();
+	public static MobESPListener mobESPListener = new MobESPListener();
+	public static ChestESPListener chestESPListener = new ChestESPListener();
+	public static CorpseESPListener corpseESPListener = new CorpseESPListener();
+	public static WitherESPListener witherESPListener = new WitherESPListener();
 }

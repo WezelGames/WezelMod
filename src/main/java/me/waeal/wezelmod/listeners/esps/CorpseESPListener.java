@@ -18,7 +18,6 @@ public class CorpseESPListener {
         Minecraft.getMinecraft().theWorld.loadedEntityList.forEach(e -> {
             if (e instanceof EntityArmorStand
                     && ((EntityArmorStand) e).getShowArms()
-                    && e.isInvisible()
                     && ((EntityArmorStand) e).getCurrentArmor(3) != null
                     && ((EntityArmorStand) e).getCurrentArmor(3).getItem() == Item.getItemById(169)) // Sea lantern
                 ESPServices.drawEntityBox(e, event.partialTicks, Main.settings.corpseEsp, Main.settings.corpseEspColor);
