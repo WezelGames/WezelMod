@@ -97,6 +97,17 @@ public class ESPServices {
         drawAABB(aabb, espSetting, espColor);
     }
 
+    public static void drawArea(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, int espSetting, Color espColor) {
+        RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
+        double x = minX - renderManager.viewerPosX;
+        double y = minY - renderManager.viewerPosY;
+        double z = minZ - renderManager.viewerPosZ;
+
+        AxisAlignedBB aabb = new AxisAlignedBB(0, 0, 0, maxX - minX, maxY - minY, maxZ - minZ).offset(x, y, z);
+
+        drawAABB(aabb, espSetting, espColor);
+    }
+
     private static void drawAABB(AxisAlignedBB aabb, int setting, Color color) {
         GL11.glPushMatrix();
         GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);

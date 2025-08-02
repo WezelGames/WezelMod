@@ -1,6 +1,7 @@
 package me.waeal.wezelmod;
 
 import me.waeal.wezelmod.commands.*;
+import me.waeal.wezelmod.handlers.MacroAreaHandler;
 import me.waeal.wezelmod.handlers.PacketEventHandler;
 import me.waeal.wezelmod.listeners.*;
 import me.waeal.wezelmod.listeners.esps.*;
@@ -42,6 +43,7 @@ public class Main {
 	public void init(FMLInitializationEvent event) {
 		ClientRegistry.registerKeyBinding(freeMouseBind);
 		MinecraftForge.EVENT_BUS.register(freeMouseKeybindListener);
+		MinecraftForge.EVENT_BUS.register(macroAreaListener);
 
 		ClientCommandHandler.instance.registerCommand(wezelCommand.getCommand());
 		ClientCommandHandler.instance.registerCommand(wezelMacroCommand.getCommand());
@@ -69,6 +71,9 @@ public class Main {
 	public static WezelCommand wezelCommand = new WezelCommand();
 	public static WezelMacroCommand wezelMacroCommand = new WezelMacroCommand();
 	public static PacketEventHandler packetEventHandler = new PacketEventHandler();
+	public static MacroAreaHandler macroAreaHandler = new MacroAreaHandler();
+	public static MacroAreaListener macroAreaListener = new MacroAreaListener(macroAreaHandler);
+
 	public static MacroListener macroListener = new MacroListener();
 	public static FreeMouseKeybindingListener freeMouseKeybindListener = new FreeMouseKeybindingListener();
 

@@ -234,6 +234,18 @@ public class Settings extends Vigilant {
             category = "Macro")
     public Color macroBackgroundColor = new Color(0, 0, 0, 50);
 
+    @Property(type = PropertyType.COLOR,
+            name = "Area Highlight Color",
+            description = "Color picker to choose the color of a highlighted area",
+            category = "Macro")
+    public Color macroAreaColor = new Color(50, 0, 50, 50);
+
+    @Property(type = PropertyType.COLOR,
+            name = "Position Highlight Color",
+            description = "Color picker to choose the color of a position",
+            category = "Macro")
+    public Color macroPosColor = new Color(0, 0, 255, 50);
+
     @Property(type = PropertyType.SWITCH,
             name = "Copy Chat - The same way it looks for messages",
             description = "Ctrl + click to copy chat messages",

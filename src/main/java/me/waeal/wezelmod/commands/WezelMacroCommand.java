@@ -5,6 +5,7 @@ import me.waeal.wezelmod.objects.Command;
 import me.waeal.wezelmod.objects.macros.MacroConfigManager;
 import me.waeal.wezelmod.services.WezelServices;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,8 +27,22 @@ public class WezelMacroCommand {
             return;
         }
 
+        if (args[0].equalsIgnoreCase("cancel")) {
+            Main.macroAreaHandler.setMacro(null);
+            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Cancelled" + EnumChatFormatting.GREEN + " setting the area!"));
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("setpos")) {
+            Main.macroAreaHandler.setPos(new BlockPos(Math.floor(Minecraft.getMinecraft().thePlayer.posX),
+                                                      Math.floor(Minecraft.getMinecraft().thePlayer.posY),
+                                                      Math.floor(Minecraft.getMinecraft().thePlayer.posZ)));
+            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Position set!"));
+            return;
+        }
+
         if (!(args[0].equalsIgnoreCase("disable") || args[0].equalsIgnoreCase("enable") || args[0].equalsIgnoreCase("toggle"))) {
-            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Incorrect usage of the command /wezelmacro (Optional: toggle|enable|disable) (Optional: <Macro Category>) (Optional: <Macro Name>)"));
+            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Incorrect usage of the command /wezelmacro (Optional: toggle|enable|disable|setpos|cancel) (Optional: <Macro Category>) (Optional: <Macro Name>)"));
             return;
         }
 

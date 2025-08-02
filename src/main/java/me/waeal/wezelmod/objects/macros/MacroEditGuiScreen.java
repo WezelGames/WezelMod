@@ -15,6 +15,8 @@ import gg.essential.vigilance.gui.settings.DropDownComponent;
 import java.awt.*;
 import me.waeal.wezelmod.Main;
 import me.waeal.wezelmod.services.GuiServices;
+import me.waeal.wezelmod.services.WezelServices;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -90,78 +92,14 @@ public class MacroEditGuiScreen extends WindowScreen {
                 break;
             case POSITION:
             case ON_ENTER:
-                float offset = getWindow().getWidth() - 55;
-                UITextInput minZ = doubleInput(macro.getRequirement().getMinZ(), offset, "minZ");
-                offset -= 35;
-                UITextInput minY = doubleInput(macro.getRequirement().getMinY(), offset, "minY");
-                offset -= 35;
-                UITextInput minX = doubleInput(macro.getRequirement().getMinX(), offset, "minX");
-                offset -= 35;
-                UITextInput maxZ = doubleInput(macro.getRequirement().getMaxZ(), offset, "maxZ");
-                offset -= 35;
-                UITextInput maxY = doubleInput(macro.getRequirement().getMaxY(), offset, "maxY");
-                offset -= 35;
-                UITextInput maxX = doubleInput(macro.getRequirement().getMaxX(), offset, "maxX");
-                minX.onFocusLost(component -> {
-                    minX.setActive(false);
-                    try {
-                        macro.getRequirement().setMinX(Double.parseDouble(minX.getText()));
-                        MacroConfigManager.saveConfig(Main.macroConfig);
-                    } catch (NumberFormatException ignored) {}
-                    initScreen(width, height);
+                new ButtonComponent("Set Area", () -> {
+                    Main.macroAreaHandler.setMacro(macro);
+                    WezelServices.closeGui();
                     return null;
-                });
-                minY.onFocusLost(component -> {
-                    minY.setActive(false);
-                    try {
-                        macro.getRequirement().setMinY(Double.parseDouble(minY.getText()));
-                        MacroConfigManager.saveConfig(Main.macroConfig);
-                    } catch (NumberFormatException ignored) {}
-                    initScreen(width, height);
-                    return null;
-                });
-                minZ.onFocusLost(component -> {
-                    minZ.setActive(false);
-                    try {
-                        macro.getRequirement().setMinZ(Double.parseDouble(minZ.getText()));
-                        MacroConfigManager.saveConfig(Main.macroConfig);
-                    } catch (NumberFormatException ignored) {}
-                    initScreen(width, height);
-                    return null;
-                });
-                maxX.onFocusLost(component -> {
-                    maxX.setActive(false);
-                    try {
-                        macro.getRequirement().setMaxX(Double.parseDouble(maxX.getText()));
-                        MacroConfigManager.saveConfig(Main.macroConfig);
-                    } catch (NumberFormatException ignored) {}
-                    initScreen(width, height);
-                    return null;
-                });
-                maxY.onFocusLost(component -> {
-                    maxY.setActive(false);
-                    try {
-                        macro.getRequirement().setMaxY(Double.parseDouble(maxY.getText()));
-                        MacroConfigManager.saveConfig(Main.macroConfig);
-                    } catch (NumberFormatException ignored) {}
-                    initScreen(width, height);
-                    return null;
-                });
-                maxZ.onFocusLost(component -> {
-                    maxZ.setActive(false);
-                    try {
-                        macro.getRequirement().setMaxZ(Double.parseDouble(maxZ.getText()));
-                        MacroConfigManager.saveConfig(Main.macroConfig);
-                    } catch (NumberFormatException ignored) {}
-                    initScreen(width, height);
-                    return null;
-                });
-                requirementsHeader.addChild(minX);
-                requirementsHeader.addChild(minY);
-                requirementsHeader.addChild(minZ);
-                requirementsHeader.addChild(maxX);
-                requirementsHeader.addChild(maxY);
-                requirementsHeader.addChild(maxZ);
+                })
+                        .setX(new PixelConstraint(getWindow().getWidth() - 105))
+                        .setY(new CenterConstraint())
+                        .setChildOf(requirementsHeader);
                 break;
             case KEY_UP:
             case KEY_DOWN:
@@ -342,13 +280,6 @@ public class MacroEditGuiScreen extends WindowScreen {
             input.setActive(true);
             return null;
         });
-
-        UIText nameLabel = (UIText) new UIText(name + ":")
-                .setX(new PixelConstraint(0))
-                .setY(new PixelConstraint(-30))
-                .setWidth(new PixelConstraint(15))
-                .setHeight(new PixelConstraint(5))
-                .setChildOf(input);
 
         return input;
     }
